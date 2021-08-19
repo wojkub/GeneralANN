@@ -72,7 +72,7 @@ class GeneralANN:
         plt.plot(self.model_history.history['val_loss'], label='val_loss')
         plt.ylim([0.8*y1, 1.1*y2])
         plt.xlabel('Epoch')
-        plt.ylabel('Error [rho]')
+        plt.ylabel('Mean Absolute Error')
         plt.legend()
         plt.grid(True)
         plt.show()
@@ -103,25 +103,24 @@ class GeneralANN:
         print("test result: ", test_results)
         print("**********************************************************************")
 
-np.set_printoptions(precision=2, suppress=True)
-raw_dataset = pd.read_csv("data_RM.csv",
-                          na_values=' ', comment='\t',
-                          sep=',', skipinitialspace=True)
 
-inp = ['PAR', 'PK1', 'PK2', 'PK3', 'PK4', 'PK5', 'PK6']
-out = ['rho'] 
+if __name__ == '__main__':
 
-GANN = GeneralANN()
-raw_dataset = raw_dataset.tail(1000)
-GANN.prepare_data(raw_dataset, inp=inp, out=out, fraction=0.9)
-GANN.normalize_data(show_example = False)
-GANN.build_and_compile_model([100,50, 20, 1],['relu', 'relu', 'relu'], eta=0.0001)
-GANN.train(batch=100, epochs=1000)
-GANN.test()
-GANN.plot_loss()
-GANN.plot_scheme()
+    raw_dataset = pd.read_csv("data_RM.csv",
+                            na_values=' ', comment='\t',
+                            sep=',', skipinitialspace=True)
+    raw_dataset = raw_dataset.tail(1000)
 
-from keras_visualizer import visualizer 
-visualizer(GANN.model)
+    inp = ['PAR', 'PK1', 'PK2', 'PK3', 'PK4', 'PK5', 'PK6']
+    out = ['rho'] 
+
+    GANN = GeneralANN()
+    GANN.prepare_data(raw_dataset, inp=inp, out=out, fraction=0.9)
+    GANN.normalize_data(show_example = False)
+    GANN.build_and_compile_model([100,50, 20, 1],['relu', 'relu', 'relu'], eta=0.0001)
+    GANN.train(batch=100, epochs=1000)
+    GANN.test()
+    GANN.plot_loss()
+    GANN.plot_scheme()
 
 
