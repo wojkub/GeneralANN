@@ -109,7 +109,6 @@ if __name__ == '__main__':
     raw_dataset = pd.read_csv("data_RM.csv",
                             na_values=' ', comment='\t',
                             sep=',', skipinitialspace=True)
-    raw_dataset = raw_dataset.tail(1000)
 
     inp = ['PAR', 'PK1', 'PK2', 'PK3', 'PK4', 'PK5', 'PK6']
     out = ['rho'] 
